@@ -12,7 +12,15 @@
               <h5 class="card-title">{{ script.title }}</h5>
               <p class="card-text">{{ script.description }}</p>
               <p class="card-text"><strong>Price:</strong> {{ script.price }} <br><strong>Rating:</strong> {{ script.average}}</p>
-              <a href="{{ url_for('download', script_id=script.id) }}" class="btn btn-success">Download</a>
+              <!-- if the session user.premium is true,show button for download, else show a disabled button for the download -->
+                {% if 'premium' in session  %}
+                    {% if session['premium'] == True %}
+                        <a href="{{ url_for('download', script_id=script.id) }}" class="btn btn-success">Download</a>
+                    {% else %}
+                    <a href="{{ url_for('download', script_id=script.id) }}" class="btn btn-success disabled" aria-disabled="true">Download</a>
+                    <span class="text-danger">Must be premium to download</span>
+                    {% endif %}
+                {% endif %}
             </div>
           </div>
         </div>

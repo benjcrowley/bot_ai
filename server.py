@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, abort
 from datetime import datetime
 import crud
+import time
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import connect_to_db, db, User, Script, Reviews
 import os
@@ -48,17 +49,16 @@ def login():
         password = request.form.get("password")
         # print(request.form)
         user = crud.get_user(email_username)
-        print(user)
+        
         if user:
-            print('user found')
             if user.password == password:
-                print('password correct')
                 session["user_id"] = user.id
                 session["username"] = user.username
-                print("Logged in successfully")
+                session["premium"] = user.premium
+                flash("Logged in successfully")
                 return redirect(url_for("home"))
             else:
-                print('incorrect password')
+                flash('incorrect password')
 
         return render_template("login.html")
 
@@ -77,18 +77,50 @@ def signup():
         user = crud.get_user(email)
 
         if user:
-            return "User already exists"
+            flash("User already exists")
         else:
             user = crud.create_user(username, email, password)
+            # add the user to the database
+            db.session.add(user)
+            db.session.commit()
+            flash("Account created successfully")
             return redirect(url_for("login"))
 
     return render_template("signup.html")
 # a route for the logout page
 @app.route("/logout")
 def logout():
-    flash("You have been logged out")
+    time.sleep(2)
     session.clear()
+    flash("You have been logged out")
     return render_template("logout.html")
+
+# a route for the profile page
+@app.route("/profile")
+def profile():
+    user_id = session.get("user_id")
+    user = crud.get_user_by_id(user_id)
+    reviews = crud.get_user_reviews(user_id)
+    return render_template("profile.html", user=user, reviews=reviews)
+
+
+# a route for a user to be able to toggle their user.premium status to true and to false
+@app.route("/premium", methods=["GET", "POST"])
+def premium():
+    user_id = session.get("user_id")
+    user = crud.get_user_by_id(user_id)
+    if request.method == "POST":
+        if user.premium == True:
+            user.premium = False
+            session["premium"] = False
+            db.session.commit()
+            return redirect(url_for("profile"))
+        elif user.premium == False:
+            user.premium = True
+            session["premium"] = True
+            db.session.commit()
+            return redirect(url_for("profile"))
+    return render_template("profile.html", user=user)
 
 # a route for the terms and condtions page
 @app.route("/terms")

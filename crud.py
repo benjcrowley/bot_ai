@@ -26,7 +26,12 @@ def get_user(email_username):
 
     return user
 
+def get_user_by_id(user_id):
+    '''Get user by id'''
 
+    user = User.query.filter(User.id == user_id).first()
+
+    return user
 
 
 # create script functions
@@ -57,6 +62,13 @@ def view_all_reviews():
     '''View all reviews in the database'''
 
     reviews = Reviews.query.all()
+
+    return reviews
+# get all reviews by user id
+def get_user_reviews(user_id):
+    '''Get all reviews by user id'''
+
+    reviews = Reviews.query.filter(Reviews.user_id == user_id).all()
 
     return reviews
 

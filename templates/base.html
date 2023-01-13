@@ -32,7 +32,7 @@
 
               {% if 'username' in session %}
               <li class="nav-item text-lg font-weight-bold">
-                  <a class="nav-link" href="/profile">{{ session.username }}</a>
+                  <a class="nav-link" href="/profile">Hey, {{ session.username }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Log out</a>
@@ -50,15 +50,23 @@
         </nav>
     </header>
     <!-- add code for flash message display -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success" role="alert" style="position: absolute; top: 0; right: 0; z-index: 1;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <script>
+            setTimeout(function() {
+                var alert = document.querySelector('.alert');
+                alert.style.display = 'none';
+            }, 2000);
+        </script>
+    </body>
     {% block main %}
     {% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block main %}
+<div class="container">
+    <h1>{{ session.username }}'s Profile</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Premium Status:</strong> {% if user.premium %}Premium{% else %}Not Premium{% endif %}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {% if not user.premium %}
+                <p>Upgrade your account to access premium features</p>
+                <form action="{{ url_for('premium') }}" method="post">
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" class="form-control" id="card-number" name="card-number">
+                    </div>
+                    <div class="form-group">
+                        <label for="expiration-date">Expiration Date</label>
+                        <input type="text" class="form-control" id="expiration-date" name="expiration-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" class="form-control" id="cvv" name="cvv">
+                    </div>
+                    <button type="submit" class="btn btn-success">Upgrade</button>
+                </form>
+                <form action="{{ url_for('premium') }}" method="post">
+                    <div class="form-group">
+                        <label for="email">Email PayPal</label>
+                        <input type="text" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password PayPal</label>
+                        <input type="text" class="form-control" id="password" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-success">Upgrade</button>
+                </form>
+            {% else %}
+                <p>Downgrade your account to access free features</p>
+                <form action="{{ url_for('premium') }}" method="post">
+                    <button type="submit" class="btn btn-danger">Downgrade</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
