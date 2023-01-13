@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}BotShoppers - Marketplace for buying and selling automated bots{% endblock %}
+
+{% block main %}
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="display-4">Welcome to BotShoppers</h1>
+    <p class="lead">A marketplace for buying and selling automated bots that help users buy rare limited items when they are dropped, such as concert tickets, nike shoes, supreme clothes, etc.</p>
+    <hr class="my-4">
+    <p>Find the perfect bot to help you snag that limited item you've been wanting, or sell your own bot to other users looking for an edge in the marketplace.</p>
+    <a class="btn btn-primary btn-lg" href="/catalog" role="button">View our catalog</a>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Reliable bots</h5>
+          <p class="card-text">Our bots are tested and guaranteed to work, giving you the best chance at snagging that limited item.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Expert sellers</h5>
+          <p class="card-text">Our sellers are experts in their field, ensuring you get the best bot for your needs.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Secure transactions</h5>
+          <p class="card-text">We use secure payment methods and have a buyer protection program to ensure a safe and smooth transaction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Request a Specific Bot</h5>
+          <p class="card-text">If you're looking for a specific bot that is not currently available in our catalog, you can request it here.</p>
+          <a class="btn btn-secondary" href="/contact" role="button">Request a Bot</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
