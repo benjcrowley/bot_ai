@@ -6,7 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from model import connect_to_db, db, User, Script, Reviews
 import os
 app = Flask(__name__)
-app.secret_key = "secret key"
+#get the secret key from the environment variable
+app.secret_key = os.environ.get("SECRET_KEY")
 
 
 
@@ -90,9 +91,11 @@ def signup():
 # a route for the logout page
 @app.route("/logout")
 def logout():
-    time.sleep(2)
-    session.clear()
     flash("You have been logged out")
+    time.sleep(2)
+    del session["user_id"]
+    del session["username"]
+    del session["premium"]
     return render_template("logout.html")
 
 # a route for the profile page
